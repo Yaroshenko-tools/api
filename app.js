@@ -15,17 +15,17 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080' , 'https://yaroshenko.tools'];
-const corsOptions = {
-	origin: function (origin, callback) {
-		if (allowedOrigins.indexOf(origin) !== -1) {
-			callback(null, true)
-		} else {
-			callback(new Error('Not allowed by CORS'))
-		}
-	},
-	methods: ['POST'],
-}
+// const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080' , 'https://yaroshenko.tools'];
+// const corsOptions = {
+// 	origin: function (origin, callback) {
+// 		if (allowedOrigins.indexOf(origin) !== -1) {
+// 			callback(null, true)
+// 		} else {
+// 			callback(new Error('Not allowed by CORS'))
+// 		}
+// 	},
+// 	methods: ['POST'],
+// }
 
 app.use(cors(corsOptions));
 // app.use(function(req, res, next) {
