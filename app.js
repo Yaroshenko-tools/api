@@ -23,7 +23,8 @@ const corsOptions = {
 		} else {
 			callback(new Error('Not allowed by CORS'))
 		}
-	}
+	},
+	methods: ['POST'],
 }
 
 app.use(cors(corsOptions));
