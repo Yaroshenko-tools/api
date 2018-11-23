@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors')
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -14,18 +15,29 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use(function(req, res, next) {
-	const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080' , 'https://yaroshenko.tools'];
-	const origin = req.headers.origin;
-	if(allowedOrigins.indexOf(origin) > -1){
-		res.setHeader('Access-Control-Allow-Origin', origin);
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080' , 'https://yaroshenko.tools'];
+const corsOptions = {
+	origin: function (origin, callback) {
+		if (allowedOrigins.indexOf(origin) !== -1) {
+			callback(null, true)
+		} else {
+			callback(new Error('Not allowed by CORS'))
+		}
 	}
-	//res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
-	res.header('Access-Control-Allow-Methods', 'GET, OPTIONS, POST');
-	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-	res.header('Access-Control-Allow-Credentials', true);
-	return next();
-});
+}
+
+app.use(cors(corsOptions));
+// app.use(function(req, res, next) {
+//
+// 	const origin = req.headers.origin;
+// 	if(allowedOrigins.indexOf(origin) > -1){
+// 		res.setHeader('Access-Control-Allow-Origin', origin);
+// 	}
+// 	res.header('Access-Control-Allow-Methods', 'GET, OPTIONS, POST');
+// 	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+// 	res.header('Access-Control-Allow-Credentials', true);
+// 	return next();
+// });
 
 app.use(logger('dev'));
 app.use(express.json());
