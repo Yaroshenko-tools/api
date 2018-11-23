@@ -1,0 +1,9 @@
+{
+  "script": "bin/www",
+  "watch": true,
+  "ignore_watch": ["public"],
+  "watch_options": {
+    "followSymlinks": false
+  },
+  "name": "api.yaroshenko.tools"
+}
