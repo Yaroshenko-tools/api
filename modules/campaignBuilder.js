@@ -7,40 +7,40 @@ const EXACT = 'Exact';
 const getRow = (campaignName, adGroup, keyword, ad) => {
 	if (keyword && ad) throw new Error('KeyWords and Ad should be in separate rows');
 	if (!adGroup) throw new Error('adGroup should be defined');
-	let row = `${campaignName}|${adGroup}|`;
+	let row = `${campaignName}[|]${adGroup}[|]`;
 
 	if (keyword) {
-		row = row + `${keyword.text}|${keyword.matchtype}|`;
+		row = row + `${keyword.text}[|]${keyword.matchtype}[|]`;
 
 		if (keyword.url) {
-			row = row + `${keyword.url}|`;
+			row = row + `${keyword.url}[|]`;
 		} else {
 			row = row + ``;
 		}
 	} else {
-		row = row + `||`;
+		row = row + `[|][|]`;
 		// if (!ad) {
-		// 	row = row + `|`;
+		// 	row = row + `[|]`;
 		// }
 
 	}
 
 	if (ad) {
-		row = row + `${ad.url}|${ad.h1}|${ad.h2}|${ad.h3}|${ad.d1}|${ad.d2}|${ad.p1}|${ad.p2}`;
+		row = row + `${ad.url}[|]${ad.h1}[|]${ad.h2}[|]${ad.h3}[|]${ad.d1}[|]${ad.d2}[|]${ad.p1}[|]${ad.p2}`;
 	} else {
 		if (!keyword || !keyword.url) {
-			row = row + `|`;
+			row = row + `[|]`;
 		}
-		row = row + `||||||`;
+		row = row + `[|][|][|][|][|][|]`;
 	}
 
-	const delimeters = row.split('|').length - 1;
+	const delimeters = row.split('[|]').length - 1;
 	if (delimeters !== 11) throw new Error('Should be 11 delimeters!');
 	return row;
 };
 
 const getHeader = () => {
-	return 'Campaign|Ad Group|Keyword|Criterion Type|Final URL|Headline 1|Headline 2|Headline 3|Description Line 1|Description Line 2|Path 1|Path 2';
+	return 'Campaign[|]Ad Group[|]Keyword[|]Criterion Type[|]Final URL[|]Headline 1[|]Headline 2[|]Headline 3[|]Description Line 1[|]Description Line 2[|]Path 1[|]Path 2';
 };
 
 
@@ -117,15 +117,15 @@ class CampaignBuilder {
 	}
 
 	getCsv() {
-		return this.csv.replace(/\|/g, "\t");
+		return this.csv.replace(/\[\|\]/g, "\t");
 	}
 
 	getTable() {
 		let result = '<table id="table-result"><thead><tr class="text-xs-left">';
 		let rows = this.csv.split('\n');
-		result += '<th>' + rows[0].replace(/\|/g, "</th><th>") + '</th></tr></thead><tbody>';
+		result += '<th>' + rows[0].replace(/\[\|\]/g, "</th><th>") + '</th></tr></thead><tbody>';
 		for(let i = 1; i<rows.length; i++ ) {
-			result += '<tr><td>' + rows[i].replace(/\|/g, "</td><td>") + '</td></tr>';
+			result += '<tr><td>' + rows[i].replace(/\[\|\]/g, "</td><td>") + '</td></tr>';
 		}
 		result += '</tbody></table>';
 		return result;

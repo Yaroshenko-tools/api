@@ -1,7 +1,8 @@
 {
   "script": "bin/www",
   "watch": true,
-  "ignore_watch": ["public"],
+  "ignore_watch": ["public", "error.log"],
+  "error_file" : "error.log",
   "watch_options": {
     "followSymlinks": false
   },
