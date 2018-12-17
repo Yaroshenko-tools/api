@@ -63,6 +63,11 @@ class Ad {
 				text = replaceAll(text, `\\[word${i + 1}\\]`, words[i]);
 				text = replaceAll(text, `\\[Word${i + 1}\\]`, _.capitalize(words[i]));
 			}
+			text = replaceAll(text, '\\n', '');
+			text = replaceAll(text, '\\r', '');
+			text = replaceAll(text, '\\t', '');
+			text = text.trim();
+
 			return text;
 		}
 
