@@ -62,6 +62,8 @@ class Ad {
 			for (let i = 0; i < words.length; i++) {
 				text = replaceAll(text, `\\[word${i + 1}\\]`, words[i]);
 				text = replaceAll(text, `\\[Word${i + 1}\\]`, _.capitalize(words[i]));
+				text = replaceAll(text, `\\[word${i + 1}\\]`, '');
+				text = replaceAll(text, `\\[Word${i + 1}\\]`, '');
 			}
 			text = replaceAll(text, '\\n', '');
 			text = replaceAll(text, '\\r', '');
