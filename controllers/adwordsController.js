@@ -18,8 +18,9 @@ const getCampaign = async (req, res) => {
 		let keyword = keywords[i].trim();
 		if (keyword) {
 			const keywordUrlArray = keyword.split('|');
-			const keywordUrl = keywordUrlArray[1];
-			keyword = keywordUrlArray[0];
+			let keywordUrl = keywordUrlArray[1];
+			if (keywordUrl) keywordUrl = keywordUrl.trim();
+			keyword = keywordUrlArray[0].trim();
 
 			keyword = replaceAll(keyword, '\\+', '');
 			keyword = replaceAll(keyword, '\\-', ' ');
