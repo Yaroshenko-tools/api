@@ -59,7 +59,7 @@ class Ad {
 			text = replaceAll(text, '\\[keyword\\]', keyword);
 			text = replaceAll(text, '\\[Keyword\\]', _.capitalize(keyword));
 			text = replaceAll(text, '\\[KeyWord\\]', keywordCapitalizerWords);
-			for (let i = 0; i < words.length; i++) {
+			for (let i = 0; i < 5; i++) {
 				text = replaceAll(text, `\\[word${i + 1}\\]`, words[i]);
 				text = replaceAll(text, `\\[Word${i + 1}\\]`, _.capitalize(words[i]));
 				text = replaceAll(text, `\\[word${i + 1}\\]`, '');
