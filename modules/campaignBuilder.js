@@ -48,7 +48,11 @@ class Ad {
 	constructor(ad, keyword) {
 		// if (h1 && h2 && h3 && d1 && d2 && p1 && p2 && url) {
 		let keywordCapitalizerWords = '';
-		const words = _.words(keyword);
+		let words = _.words(keyword);
+		const prepositions = ['в', 'без', 'до', 'из', 'к', 'на', 'по', 'о', 'от', 'перед', 'при', 'через', 'с', 'у', 'за', 'над', 'об', 'под', 'про', 'для'];
+		console.log('old', words);
+		words = words.filter(word => prepositions.indexOf(word) === -1);
+		console.log('new:', words);
 		for (let i = 0; i < words.length; i++) {
 			keywordCapitalizerWords = keywordCapitalizerWords + _.capitalize(words[i]) + ' ';
 		}
@@ -60,7 +64,7 @@ class Ad {
 			text = replaceAll(text, '\\[Keyword\\]', _.capitalize(keyword));
 			text = replaceAll(text, '\\[KeyWord\\]', keywordCapitalizerWords);
 			for (let i = 0; i < 5; i++) {
-				if(words[i]) {
+				if (words[i]) {
 					text = replaceAll(text, `\\[word${i + 1}\\]`, words[i]);
 					text = replaceAll(text, `\\[Word${i + 1}\\]`, _.capitalize(words[i]));
 				} else {
@@ -134,7 +138,7 @@ class CampaignBuilder {
 		let result = '<table id="table-result"><thead><tr class="text-xs-left">';
 		let rows = this.csv.split('\n');
 		result += '<th>' + rows[0].replace(/\[\|\]/g, "</th><th>") + '</th></tr></thead><tbody>';
-		for(let i = 1; i<rows.length; i++ ) {
+		for (let i = 1; i < rows.length; i++) {
 			result += '<tr><td>' + rows[i].replace(/\[\|\]/g, "</td><td>") + '</td></tr>';
 		}
 		result += '</tbody></table>';

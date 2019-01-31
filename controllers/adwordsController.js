@@ -16,16 +16,23 @@ const getCampaign = async (req, res) => {
 	console.log(keywords)
 	for (let i = 0; i < keywords.length; i++) {
 		let keyword = keywords[i].trim();
-		keyword = replaceAll(keyword, '\\+', '');
-		keyword = replaceAll(keyword, '\\-', '');
-		keyword = replaceAll(keyword, '\\[', '');
-		keyword = replaceAll(keyword, '\\]', '');
-		keyword = replaceAll(keyword, '\\"', '');
-		keyword = replaceAll(keyword, '\\"', '');
-		keyword = keyword.replace(/ +(?= )/g, '');
-
 		if (keyword) {
+			const keywordUrlArray = keyword.split('|');
+			const keywordUrl = keywordUrlArray[1];
+			keyword = keywordUrlArray[0];
+
+			keyword = replaceAll(keyword, '\\+', '');
+			keyword = replaceAll(keyword, '\\-', ' ');
+			keyword = replaceAll(keyword, '\\[', '');
+			keyword = replaceAll(keyword, '\\]', '');
+			keyword = replaceAll(keyword, '\\"', '');
+			keyword = replaceAll(keyword, '\\"', '');
+			keyword = keyword.replace(/ +(?= )/g, '');
+
+
 			// Start building campaign here
+
+
 
 			// console.log(keyword)
 			campaign.startAdGroup(keyword)
@@ -37,7 +44,7 @@ const getCampaign = async (req, res) => {
 			}
 
 			if (matchtypes.broad) {
-				campaign.addKeyword(new Keyword(keyword, BROAD));
+				campaign.addKeyword(new Keyword(keyword, BROAD, keywordUrl));
 			}
 
 			if (matchtypes.broadMoifier) {
@@ -51,13 +58,13 @@ const getCampaign = async (req, res) => {
 					broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + POSTFIX, noPluses[n] + POSTFIX);
 				}
 				broadModifierKeyword = broadModifierKeyword.replace(POSTFIX, '');
-				campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD));
+				campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD, keywordUrl));
 			}
 			if (matchtypes.phrase) {
-				campaign.addKeyword(new Keyword(keyword, PHRASE));
+				campaign.addKeyword(new Keyword(keyword, PHRASE, keywordUrl));
 			}
 			if (matchtypes.exact) {
-				campaign.addKeyword(new Keyword(keyword, EXACT));
+				campaign.addKeyword(new Keyword(keyword, EXACT, keywordUrl));
 			}
 
 			// res.setHeader('Cache-Control', 'no-cache');
