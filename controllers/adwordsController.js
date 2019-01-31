@@ -20,6 +20,10 @@ const getCampaign = async (req, res) => {
 			const keywordUrlArray = keyword.split('|');
 			let keywordUrl = keywordUrlArray[1];
 			if (keywordUrl) keywordUrl = keywordUrl.trim();
+
+			let keywordH1 = keywordUrlArray[2];
+			if (keywordH1) keywordH1 = keywordH1.trim();
+
 			keyword = keywordUrlArray[0].trim();
 
 			keyword = replaceAll(keyword, '\\+', '');
@@ -40,12 +44,12 @@ const getCampaign = async (req, res) => {
 
 			for (let j = 0; j < ads.length; j++) {
 				if (isValidAd(ads[j])) {
-					campaign.addAd(new Ad(ads[j], keyword));
+					campaign.addAd(new Ad(ads[j], keyword, keywordUrl, keywordH1));
 				}
 			}
 
 			if (matchtypes.broad) {
-				campaign.addKeyword(new Keyword(keyword, BROAD, keywordUrl));
+				campaign.addKeyword(new Keyword(keyword, BROAD));
 			}
 
 			if (matchtypes.broadMoifier) {
@@ -59,13 +63,13 @@ const getCampaign = async (req, res) => {
 					broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + POSTFIX, noPluses[n] + POSTFIX);
 				}
 				broadModifierKeyword = broadModifierKeyword.replace(POSTFIX, '');
-				campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD, keywordUrl));
+				campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD));
 			}
 			if (matchtypes.phrase) {
-				campaign.addKeyword(new Keyword(keyword, PHRASE, keywordUrl));
+				campaign.addKeyword(new Keyword(keyword, PHRASE));
 			}
 			if (matchtypes.exact) {
-				campaign.addKeyword(new Keyword(keyword, EXACT, keywordUrl));
+				campaign.addKeyword(new Keyword(keyword, EXACT));
 			}
 
 			// res.setHeader('Cache-Control', 'no-cache');

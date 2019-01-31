@@ -45,7 +45,7 @@ const getHeader = () => {
 
 
 class Ad {
-	constructor(ad, keyword) {
+	constructor(ad, keyword, url, h1) {
 		// if (h1 && h2 && h3 && d1 && d2 && p1 && p2 && url) {
 		let keywordCapitalizerWords = '';
 		let words = _.words(keyword);
@@ -80,16 +80,23 @@ class Ad {
 			return text;
 		}
 
+		if (h1) {
+			this.h1 = replaceMacros(h1);
+		} else {
+			this.h1 = replaceMacros(ad.h1);
+		}
 
-		this.h1 = replaceMacros(ad.h1);
 		this.h2 = replaceMacros(ad.h2);
 		this.h3 = replaceMacros(ad.h3);
 		this.d1 = replaceMacros(ad.d1);
 		this.d2 = replaceMacros(ad.d2);
 		this.p1 = replaceMacros(ad.p1);
 		this.p2 = replaceMacros(ad.p2);
-		this.url = replaceMacros(ad.url);
-
+		if (url) {
+			this.url = replaceMacros(url)
+		} else {
+			this.url = replaceMacros(ad.url);
+		}
 
 		// } else {
 		// 	throw new Error('Not enough arguments on Ad');
