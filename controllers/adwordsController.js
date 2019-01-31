@@ -27,7 +27,6 @@ const getCampaign = async (req, res) => {
 			keyword = keywordUrlArray[0].trim();
 
 			keyword = replaceAll(keyword, '\\+', '');
-			// keyword = replaceAll(keyword, '\\-', ' ');
 			keyword = replaceAll(keyword, '\\[', '');
 			keyword = replaceAll(keyword, '\\]', '');
 			keyword = replaceAll(keyword, '\\"', '');
@@ -47,6 +46,7 @@ const getCampaign = async (req, res) => {
 					campaign.addAd(new Ad(ads[j], keyword, keywordUrl, keywordH1));
 				}
 			}
+			keyword = replaceAll(keyword, '\\-', ' ');
 
 			if (matchtypes.broad) {
 				campaign.addKeyword(new Keyword(keyword, BROAD));
