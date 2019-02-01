@@ -49,10 +49,10 @@ class Ad {
 		// if (h1 && h2 && h3 && d1 && d2 && p1 && p2 && url) {
 		let keywordCapitalizerWords = '';
 		let words = _.words(keyword);
-		const prepositions = ['в', 'без', 'до', 'из', 'к', 'на', 'по', 'о', 'от', 'перед', 'при', 'через', 'с', 'у', 'за', 'над', 'об', 'под', 'про', 'для'];
-		console.log('old', words);
-		words = words.filter(word => prepositions.indexOf(word) === -1);
-		console.log('new:', words);
+		// const prepositions = ['в', 'без', 'до', 'из', 'к', 'на', 'по', 'о', 'от', 'перед', 'при', 'через', 'с', 'у', 'за', 'над', 'об', 'под', 'про', 'для'];
+		// console.log('old', words);
+		// words = words.filter(word => prepositions.indexOf(word) === -1);
+		// console.log('new:', words);
 		for (let i = 0; i < words.length; i++) {
 			keywordCapitalizerWords = keywordCapitalizerWords + _.capitalize(words[i]) + ' ';
 		}
