@@ -6,9 +6,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
 
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb'}));
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -17,6 +14,8 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 // const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080' , 'https://yaroshenko.tools'];
 // const corsOptions = {
