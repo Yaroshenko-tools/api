@@ -1,10 +1,9 @@
 const protect = (req, res, next) => {
 	const referer = req.header('Referer');
 	// console.log(referer);
-	if (referer && (
-		referer.indexOf('http://localhost:8080/') !== -1 ||
-		referer.indexOf('https://yaroshenko.tools/') !== -1
-	)) {
+	if (referer &&
+		referer.startsWith(process.env.APP_FRONTEND_URL)
+	) {
 		next();
 	} else {
 		// next();
