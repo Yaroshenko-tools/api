@@ -2,7 +2,7 @@ const protect = (req, res, next) => {
 	const referer = req.header('Referer');
 	// console.log(referer);
 	if (referer && (
-		referer.startsWith('http://localhost:8080/') ||
+		referer.startsWith('http://localhost') ||
 		referer.startsWith('https://yaroshenko.tools/')
 	)) {
 		next();
