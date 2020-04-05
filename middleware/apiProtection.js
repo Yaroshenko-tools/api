@@ -2,8 +2,8 @@ const protect = (req, res, next) => {
 	const referer = req.header('Referer');
 	// console.log(referer);
 	if (referer && (
-		referer.indexOf('http://localhost:8080/') !== -1 ||
-		referer.indexOf('https://yaroshenko.tools/') !== -1
+		referer.startsWith('http://localhost:8080/') ||
+		referer.startsWith('https://yaroshenko.tools/')
 	)) {
 		next();
 	} else {
