@@ -11,7 +11,8 @@ const shorten = async (req, res) => {
     switch (provider) {
         case 'bit.ly':
             try {
-                result = await bitly.shorten(url);
+                resp = await bitly.shorten(url);
+                result.url = resp.link;
             } catch (e) {
                 throw e;
             }
