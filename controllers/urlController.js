@@ -25,7 +25,15 @@ const shorten = async (req, res) => {
                     v: '5.103'
                 }
             }).then(function (response) {
-                result.url = response.data.response.short_url;
+                try {
+                    result.url = response.data.response.short_url;
+                } catch (e) {
+                    console.log({
+                        error: e,
+                        response: response
+                    })
+                }
+
             }).catch(function (error) {
                 throw error;
             });
