@@ -1,5 +1,6 @@
 const {BitlyClient} = require('bitly');
 const axios = require('axios');
+const logger = require("../modules/logger");
 
 const bitly = new BitlyClient(process.env.BITLY_SECRET, {});
 
@@ -28,13 +29,21 @@ const shorten = async (req, res) => {
                 try {
                     result.url = response.data.response.short_url;
                 } catch (e) {
-                    console.log({
-                        error: e,
-                        response: response
-                    })
+                    logger.error(
+                      {
+                          error: e,
+                          response: response
+                      }
+                    )
                 }
 
             }).catch(function (error) {
+                logger.error(
+                  {
+                      error: e,
+                      response: response
+                  }
+                )
                 throw error;
             });
             break

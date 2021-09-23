@@ -1,5 +1,6 @@
 const {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} = require('../modules/campaignBuilder');
 const _ = require('lodash');
+const logger = require("../modules/logger");
 
 
 const getCampaign = async (req, res) => {
@@ -13,7 +14,10 @@ const getCampaign = async (req, res) => {
 	const campaign = new CampaignBuilder(campaignName);
 
 
-	console.log(keywords)
+	logger.info({
+		keywords
+	})
+
 	for (let i = 0; i < keywords.length; i++) {
 		let keyword = keywords[i].trim();
 		if (keyword) {
@@ -39,7 +43,6 @@ const getCampaign = async (req, res) => {
 
 
 
-			// console.log(keyword)
 			campaign.startAdGroup(keyword)
 
 			for (let j = 0; j < ads.length; j++) {
@@ -58,7 +61,7 @@ const getCampaign = async (req, res) => {
 				let broadModifierKeyword = '+' + replaceAll(keyword, ' ', ' +') + POSTFIX;
 				let noPluses = matchtypes.noPluses;
 				noPluses = replaceAll(noPluses, ' ', '').split(',').filter(item => item !== '');
-				// console.log(noPluses)
+
 				for (let n in noPluses) {
 					broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + ' ', noPluses[n] + ' ');
 					broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + POSTFIX, noPluses[n] + POSTFIX);
@@ -77,7 +80,7 @@ const getCampaign = async (req, res) => {
 
 		}
 	}
-	// console.log(campaign.getTable())
+
 	if (downloadCsv) {
 		let fileName = campaignName ? _.kebabCase(campaignName) : 'campaign';
 		// fileName += '_' + new Date(clientDate);
