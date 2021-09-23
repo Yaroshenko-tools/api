@@ -13,9 +13,7 @@ const getCampaign = async (req, res) => {
 	const campaign = new CampaignBuilder(campaignName);
 
 
-	logger.info({
-		keywords
-	})
+	logger.info({ message: JSON.stringify({keywords})})
 
 	for (let i = 0; i < keywords.length; i++) {
 		let keyword = keywords[i].trim();
