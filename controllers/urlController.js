@@ -1,6 +1,6 @@
 const {BitlyClient} = require('bitly');
 const axios = require('axios');
-const logger = require("../modules/logger");
+import logger from '../modules/logger'
 
 const bitly = new BitlyClient(process.env.BITLY_SECRET, {});
 

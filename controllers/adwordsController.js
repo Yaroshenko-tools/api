@@ -1,7 +1,6 @@
 const {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} = require('../modules/campaignBuilder');
 const _ = require('lodash');
-const logger = require("../modules/logger");
-
+import logger from '../modules/logger'
 
 const getCampaign = async (req, res) => {
 	const ads = req.body.ads;
