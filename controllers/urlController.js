@@ -12,7 +12,7 @@ const shorten = async (req, res) => {
     switch (provider) {
         case 'bit.ly':
             try {
-                resp = await bitly.shorten(url);
+                let resp = await bitly.shorten(url);
                 result.url = resp.link;
             } catch (e) {
                 throw e;
@@ -46,6 +46,8 @@ const shorten = async (req, res) => {
             });
             break
     }
+
+    logger.info({message: JSON.stringify( {result})});
 
     res.json(result)
 };
