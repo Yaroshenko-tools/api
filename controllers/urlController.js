@@ -29,21 +29,19 @@ const shorten = async (req, res) => {
                 try {
                     result.url = response.data.response.short_url;
                 } catch (e) {
-                    logger.error(
-                      {
-                          error: e,
-                          response: response
-                      }
+                    logger.error({message: JSON.stringify( {
+                            error: e,
+                            response: response
+                        })}
                     )
                 }
 
             }).catch(function (error) {
-                logger.error(
-                  {
-                      error: e,
-                      response: response
-                  }
-                )
+                logger.error({message: JSON.stringify( {
+                        error: error,
+                        response: response
+                    })});
+
                 throw error;
             });
             break
