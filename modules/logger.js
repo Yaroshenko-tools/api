@@ -1,5 +1,6 @@
-const winston = require('winston')
-const LokiTransport = require('winston-loki')
+import winston from "winston";
+import LokiTransport from 'winston-loki'
+
 const logger = winston.createLogger()
 
 logger.add(new winston.transports.Console({
