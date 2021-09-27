@@ -24,7 +24,8 @@ const corsOptions = {
       corsOptions.origin = true;
     }
 
-		if (allowedOrigins && allowedOrigins.indexOf(req.header('Origin')) !== -1) {
+		// if (allowedOrigins && allowedOrigins.indexOf(req.header('Origin')) !== -1) {
+		if (allowedOrigins) {
 			corsOptions.origin = true; // disable CORS for this request
 		}
 
