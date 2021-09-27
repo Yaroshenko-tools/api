@@ -15,20 +15,24 @@ app.set('view engine', 'hbs');
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 
-// const allowedOrigins = process.env.NODE_ENV === "production" ? ['https://yaroshenko.tools'] : false;
-// const corsOptions = {
-// 	origin: function (origin, callback) {
-// 		let corsOptions = {origin: true};
-//
-// 		// if (allowedOrigins && allowedOrigins.indexOf(req.header('Origin')) !== -1) {
-// 		// 	corsOptions.origin = true; // disable CORS for this request
-// 		// }
-//
-// 		callback(null, corsOptions) // callback expects two parameters: error and
-// 	},
-// 	methods: ['GET', 'POST', 'OPTIONS'],
-// }
-// app.use(cors(corsOptions))
+const allowedOrigins = process.env.NODE_ENV === "production" ? [process.env.APP_FRONTEND_URL] : false;
+const corsOptions = {
+	origin: function (origin, callback) {
+		let corsOptions = {origin: false};
+
+    if (!allowedOrigins) {
+      corsOptions.origin = true;
+    }
+
+		if (allowedOrigins && allowedOrigins.indexOf(req.header('Origin')) !== -1) {
+			corsOptions.origin = true; // disable CORS for this request
+		}
+
+		callback(null, corsOptions) // callback expects two parameters: error and
+	},
+	methods: ['GET', 'POST', 'OPTIONS'],
+}
+app.use(cors(corsOptions))
 
 // app.use(function (req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
@@ -72,4 +76,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+export default app;
