@@ -1,5 +1,6 @@
 const _ = require('lodash');
 
+const BROAD = 'Broad';
 const PHRASE = 'Phrase';
 const EXACT = 'Exact';
 
@@ -166,6 +167,7 @@ module.exports = {
 	CampaignBuilder,
 	Keyword,
 	Ad,
+	BROAD,
 	EXACT,
 	PHRASE
 };
