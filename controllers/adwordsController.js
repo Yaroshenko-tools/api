@@ -1,4 +1,4 @@
-const {CampaignBuilder, Keyword, Ad, EXACT, PHRASE} = require('../modules/campaignBuilder');
+const {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} = require('../modules/campaignBuilder');
 const _ = require('lodash');
 import logger from '../modules/logger'
 
@@ -48,13 +48,34 @@ const getCampaign = async (req, res) => {
 				}
 			}
 
+
+			if (matchtypes.broad) {
+				campaign.addKeyword(new Keyword(keyword, BROAD));
+			}
+
+			if (matchtypes.broadMoifier) {
+				const POSTFIX = 'ZZZXXXAAASSSLLLKKKJJJQQQ'
+				let broadModifierKeyword = '+' + replaceAll(keyword, ' ', ' +') + POSTFIX;
+				let noPluses = matchtypes.noPluses;
+				noPluses = replaceAll(noPluses, ' ', '').split(',').filter(item => item !== '');
+
+				for (let n in noPluses) {
+					broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + ' ', noPluses[n] + ' ');
+					broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + POSTFIX, noPluses[n] + POSTFIX);
+				}
+				broadModifierKeyword = broadModifierKeyword.replace(POSTFIX, '');
+				campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD));
+			}
 			if (matchtypes.phrase) {
 				campaign.addKeyword(new Keyword(keyword, PHRASE));
 			}
 			if (matchtypes.exact) {
 				campaign.addKeyword(new Keyword(keyword, EXACT));
 			}
-    }
+
+			// res.setHeader('Cache-Control', 'no-cache');
+
+		}
 	}
 
 	if (downloadCsv) {
