@@ -32,7 +32,7 @@ const getCampaign = async (req, res) => {
     })
   })
 
-  return res.json(campaignResult);
+  return res.json({data: campaignResult});
 };
 
 module.exports = {
