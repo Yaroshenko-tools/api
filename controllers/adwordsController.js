@@ -1,19 +1,40 @@
 const {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} = require('../modules/campaignBuilder');
 const _ = require('lodash');
 import logger from '../modules/logger'
+import {
+  HeadersCreator,
+  AdCreator,
+  KeywordCreator,
+  ResponsiveAdCreator,
+  parseKeywords
+} from "../modules/campaignBuilder";
 
 const getCampaign = async (req, res) => {
 	const ads = req.body.ads;
 	const campaignName = req.body.campaignName;
 	const matchtypes = req.body.matchtypes;
-	const keywords = req.body.keywords.split("\n");
-	const downloadCsv = req.body.downloadCsv;
-	const clientDate = req.body.clientDate;
+	const keywords = parseKeywords(req.body.keywords);
+
+  const campaignResult = []
+  campaignResult.push(new HeadersCreator().create(campaignName))
+
+  keywords.forEach(keyword => {
+    ads.forEach(ad => {
+      const keywordValue = keyword.keyword
+      const finalUrl = keyword?.url ?? ad.url
+      if (keyword?.headline) ad.headlines[0] = keyword.headline
+
+      campaignResult.push(new AdCreator().create(campaignName, keywordValue))
+      campaignResult.push(new ResponsiveAdCreator().create(campaignName, keywordValue, finalUrl, ad.headlines, ad.descriptions, ad.paths))
+      matchtypes.forEach(matchtype => {
+        campaignResult.push(new KeywordCreator().create(campaignName, keywordValue, matchtype))
+      })
+    })
+  })
+
+  return res.json(campaignResult);
 
 	const campaign = new CampaignBuilder(campaignName);
-
-
-	logger.info({ message: JSON.stringify({keywords})})
 
 	for (let i = 0; i < keywords.length; i++) {
 		let keyword = keywords[i].trim();
@@ -27,25 +48,14 @@ const getCampaign = async (req, res) => {
 
 			keyword = keywordUrlArray[0].trim();
 
-			keyword = replaceAll(keyword, '\\-', ' ');
-			keyword = replaceAll(keyword, '\\+', '');
-			keyword = replaceAll(keyword, '\\[', '');
-			keyword = replaceAll(keyword, '\\]', '');
-			keyword = replaceAll(keyword, '\\"', '');
-			keyword = replaceAll(keyword, '\\"', '');
-			keyword = keyword.replace(/ +(?= )/g, '');
 
 
 			// Start building campaign here
 
-
-
 			campaign.startAdGroup(keyword)
 
 			for (let j = 0; j < ads.length; j++) {
-				if (isValidAd(ads[j])) {
-					campaign.addAd(new Ad(ads[j], keyword, keywordUrl, keywordH1));
-				}
+        campaign.addAd(new Ad(ads[j], keyword, keywordUrl, keywordH1));
 			}
 
 
@@ -66,15 +76,13 @@ const getCampaign = async (req, res) => {
 				broadModifierKeyword = broadModifierKeyword.replace(POSTFIX, '');
 				campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD));
 			}
+
 			if (matchtypes.phrase) {
 				campaign.addKeyword(new Keyword(keyword, PHRASE));
 			}
 			if (matchtypes.exact) {
 				campaign.addKeyword(new Keyword(keyword, EXACT));
 			}
-
-			// res.setHeader('Cache-Control', 'no-cache');
-
 		}
 	}
 
@@ -88,7 +96,6 @@ const getCampaign = async (req, res) => {
 	} else {
 		res.json({campaign: campaign.getTable()});
 	}
-
 };
 
 function replaceAll(target, search, replacement) {
