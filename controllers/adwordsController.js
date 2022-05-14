@@ -34,9 +34,6 @@ const getCampaign = async (req, res) => {
   })
 
   if (downloadCsv) {
-    let fileName = campaignName ? _.kebabCase(campaignName) : 'campaign';
-    // fileName += '_' + new Date(clientDate);
-    // res.setHeader('Content-Description', `attachment; filename=123.csv`);
     res.setHeader('Content-disposition', `attachment; filename=123.csv`);
     res.set('Content-Type', 'text/csv');
     return res.status(200).send(new CsvCreator().create(campaignResult));
