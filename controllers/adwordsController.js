@@ -6,13 +6,14 @@ import {
   AdCreator,
   KeywordCreator,
   ResponsiveAdCreator,
-  parseKeywords
+  parseKeywords, CsvCreator
 } from "../modules/campaignBuilder";
 
 const getCampaign = async (req, res) => {
 	const ads = req.body.ads;
 	const campaignName = req.body.campaignName;
 	const matchtypes = req.body.matchtypes;
+  const downloadCsv = req.body.downloadCsv;
 	const keywords = parseKeywords(req.body.keywords);
 
   const campaignResult = []
@@ -32,6 +33,14 @@ const getCampaign = async (req, res) => {
     })
   })
 
+  if (downloadCsv) {
+    let fileName = campaignName ? _.kebabCase(campaignName) : 'campaign';
+    // fileName += '_' + new Date(clientDate);
+    // res.setHeader('Content-Description', `attachment; filename=123.csv`);
+    res.setHeader('Content-disposition', `attachment; filename=123.csv`);
+    res.set('Content-Type', 'text/csv');
+    return res.status(200).send(new CsvCreator().create(campaignResult));
+  }
   return res.json({data: campaignResult});
 };
 

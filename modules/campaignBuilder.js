@@ -192,3 +192,15 @@ export class KeywordCreator {
     return result
   }
 }
+
+export class CsvCreator {
+  create (arr) {
+    let result = ''
+
+    arr.forEach(item => {
+      result = result + item.join(',') + '\n'
+    })
+
+    return result
+  }
+}
