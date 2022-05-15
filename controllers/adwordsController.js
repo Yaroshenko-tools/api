@@ -21,6 +21,7 @@ const getCampaign = async (req, res) => {
 
   keywords.forEach(keyword => {
     ads.forEach(ad => {
+      if (!ad?.headlines) return
       const keywordValue = keyword.keyword
       const finalUrl = keyword?.url ?? ad.url
       if (keyword?.headline) ad.headlines[0] = keyword.headline
