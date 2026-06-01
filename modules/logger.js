@@ -8,11 +8,14 @@ logger.add(new winston.transports.Console({
   level: 'info'
 }))
 
-logger.add(new LokiTransport({
-  host: process.env.LOKI_HOST,
-  json: true,
-  basicAuth: `${process.env.LOKI_USER}:${process.env.LOKI_PASS}`,
-  labels: { job: 'yaroshenko.tools' }
-}))
+const lokiHost = process.env.LOKI_HOST
+if (lokiHost) {
+  logger.add(new LokiTransport({
+    host: lokiHost,
+    json: true,
+    basicAuth: `${process.env.LOKI_USER || ''}:${process.env.LOKI_PASS || ''}`,
+    labels: { job: 'yaroshenko.tools' }
+  }))
+}
 
 export default logger

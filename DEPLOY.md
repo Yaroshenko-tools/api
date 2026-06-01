@@ -18,7 +18,7 @@ The API is deployed from this repository with Coolify’s **Dockerfile** build p
    | `BITLY_SECRET` | Bitly API token |
    | `VK_CC_ACCESS_TOKEN` | VK shortener token |
    | `APP_FRONTEND_URL` | Public frontend URL (CORS), e.g. `https://yaroshenko.tools` |
-   | `LOKI_HOST`, `LOKI_USER`, `LOKI_PASS` | Optional logging |
+   | `LOKI_HOST`, `LOKI_USER`, `LOKI_PASS` | Optional — omit all three if you do not use Loki (app logs to console only) |
 
 8. Enable **Auto Deploy** on push (GitHub App or deploy webhook).
 
