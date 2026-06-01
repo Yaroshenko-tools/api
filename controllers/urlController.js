@@ -1,53 +1,41 @@
-const { BitlyClient } = require('bitly');
 import axios from 'axios'
 import logger from '../modules/logger'
 
-const bitly = new BitlyClient(process.env.BITLY_SECRET, {});
-
 const shorten = async (req, res) => {
   const url = req.body.url
-  const provider = req.body.provider
 
-  if (!url || !provider) {
-    return res.status(400).json({ error: 'url and provider are required' })
+  if (!url) {
+    return res.status(400).json({ error: 'url is required' })
+  }
+
+  if (!process.env.VK_CC_ACCESS_TOKEN) {
+    return res.status(503).json({ error: 'VK shortener is not configured' })
   }
 
   try {
-    let result = {}
+    const resp = await axios.get('https://api.vk.com/method/utils.getShortLink', {
+      params: {
+        url,
+        access_token: process.env.VK_CC_ACCESS_TOKEN,
+        v: '5.131',
+      },
+    })
 
-    switch (provider) {
-      case 'bit.ly': {
-        const resp = await bitly.shorten(url)
-        result.url = resp.link
-        break
-      }
-      case 'vk.cc': {
-        if (!process.env.VK_CC_ACCESS_TOKEN) {
-          return res.status(503).json({ error: 'VK shortener is not configured' })
-        }
-
-        const resp = await axios.get('https://api.vk.com/method/utils.getShortLink', {
-          params: {
-            url,
-            access_token: process.env.VK_CC_ACCESS_TOKEN,
-            v: '5.103',
-          },
-        })
-
-        if (resp.data?.error) {
-          throw new Error(resp.data.error.error_msg || 'VK API error')
-        }
-
-        result.url = resp.data?.response?.short_url
-        if (!result.url) {
-          throw new Error('VK API returned no short URL')
-        }
-        break
-      }
-      default:
-        return res.status(400).json({ error: `Unknown provider: ${provider}` })
+    if (resp.data?.error) {
+      const vkError = resp.data.error
+      return res.status(502).json({
+        error: 'VK shortener failed',
+        vk_error_code: vkError.error_code,
+        vk_error_msg: vkError.error_msg,
+      })
     }
 
+    const shortUrl = resp.data?.response?.short_url
+    if (!shortUrl) {
+      throw new Error('VK API returned no short URL')
+    }
+
+    const result = { url: shortUrl }
     logger.info({ message: JSON.stringify({ result }) })
     return res.json(result)
   } catch (e) {

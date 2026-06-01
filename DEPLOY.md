@@ -7,7 +7,7 @@ The API is deployed from this repository with Coolify’s **Dockerfile** build p
 1. **New resource** → Git repository → `Yaroshenko-tools/api`
 2. **Branch:** `production` (default / main branch on GitHub)
 3. **Build pack:** Dockerfile at repo root — do **not** paste a custom Dockerfile in Coolify
-4. **Do not** put secrets in Docker build args (`BITLY_SECRET`, `VK_CC_ACCESS_TOKEN` belong in **Environment Variables** only)
+4. **Do not** put secrets in Docker build args (`VK_CC_ACCESS_TOKEN` belongs in **Environment Variables** only)
 5. **Port:** `3000`
 6. **Domain:** e.g. `https://api.yaroshenko.tools`
 7. **Environment variables** (from `.env.example`):
@@ -15,8 +15,7 @@ The API is deployed from this repository with Coolify’s **Dockerfile** build p
    | Variable | Description |
    |----------|-------------|
    | `PORT` | Optional; defaults to `3000` |
-   | `BITLY_SECRET` | Bitly API token |
-   | `VK_CC_ACCESS_TOKEN` | VK shortener token |
+   | `VK_CC_ACCESS_TOKEN` | VK service access token (vk.cc shortener) |
    | `APP_FRONTEND_URL` | Public frontend URL (CORS), e.g. `https://yaroshenko.tools` |
    | `LOKI_HOST`, `LOKI_USER`, `LOKI_PASS` | Optional — omit all three if you do not use Loki (app logs to console only) |
 
