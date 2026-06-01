@@ -5,7 +5,7 @@ The API is deployed from this repository with Coolify’s **Dockerfile** build p
 ## Coolify application setup
 
 1. **New resource** → Git repository → `Yaroshenko-tools/api`
-2. **Branch:** `production` or `master` (both have the same Dockerfile after the Coolify update)
+2. **Branch:** `production` (default / main branch on GitHub)
 3. **Build pack:** Dockerfile at repo root — do **not** paste a custom Dockerfile in Coolify
 4. **Do not** put secrets in Docker build args (`BITLY_SECRET`, `VK_CC_ACCESS_TOKEN` belong in **Environment Variables** only)
 5. **Port:** `3000`
