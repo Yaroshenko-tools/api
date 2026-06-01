@@ -15,3 +15,7 @@ npm run start
 ## Settings setup
 * Rename `.env.example` to `.env`. (`cp .env.example .env`)
 * Edit `.env` with your parameters
+
+## Deployment
+
+Production runs on [Coolify](https://coolify.io) from the `production` branch. See [DEPLOY.md](./DEPLOY.md) for application settings, env vars, and domains.
